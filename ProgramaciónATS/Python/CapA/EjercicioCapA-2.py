@@ -1,0 +1,5 @@
+#Determinal la solucion logica de la sigueinte operacion: ((3+5x8)<3 and ((-6/3 x4)+2<2)) or (a>b)
+a = float(input('Ingrese e primer numero: '))
+b = float(input('Ingrese e segundo numero: '))
+opera = ((3+5*8) <3 and (-6/3 *4)+2<2) or (a>b)
+print(f'El resultado de la operacion es {opera}')
