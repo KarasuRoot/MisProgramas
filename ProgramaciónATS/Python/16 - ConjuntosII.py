@@ -41,5 +41,5 @@ print(g.issuperset(a))
 print('\nIndica un booleano si un conjunto es un conjunto disconexo de otro determinado')
 print(a.isdisjoint(b))
 
-#Determinar si un conjunto es inmutable
+#Hacer que un conjunto sea inmutable
 o = frozenset({8,9,10})
