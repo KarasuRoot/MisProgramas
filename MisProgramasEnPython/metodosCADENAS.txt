@@ -1,0 +1,14 @@
+metodos usados en cadenas
+.upper() es para todo mayusculas - .lower() es en minusculas
+ejemplo: 
+texto = "hola" 
+texto.uppter() -> resultado: "HOLA"
+si queres en minusuclas es:
+texto.lower() -> resultado: "hola"
+texto.isdecimal() -> indica true o false si es decimal
+podes hacer por ejemplo:
+edad = input("ingrese su edad: ")
+while edad.isdecimal() == false:
+	print("error enel ingreso")	
+	edad =input("volve a ingresar tu edad en numeros")
+
