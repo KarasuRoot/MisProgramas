@@ -1,0 +1,14 @@
+AntiDebuggers = cuando detectan que hay un debugger trabajando sobre ellos,  se cierran o comienzan a funcionar en forma diferente
+
+
+IsDebuggerPresent = Api que detecta la ejecucion de un Debugger
+esta api o función es exportada por la KERNEL32.dll
+no tiene parámetros 
+si el programa esta siendo debuggeado el retorno es un valor distinto de cero
+
+
+PostQuitMessage = pasa un mensaje para cerrar la ventana
+postea un mensaje WM_QUIT -- es una indicación de que esta cerrando cosas
+
+
+**En Olly existe plugin que pueda evitar la detección por medio de la api IsDebuggerPresent
