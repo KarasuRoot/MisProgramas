@@ -21,3 +21,30 @@ Ver el TIB en el dump (ya no esta en la misma posición si se arranca otra vez, 
 le sumo 30 al inicio del TIB y hallo su contenido 
 
 plugin para evitar el IsDebuggerPresent (HideDebbuger) en OLLYDBG
+
+
+------------------------------------------------------------------------
+Existe la posibilidad de detectar por nombre de proceso (como en la parte 20 del curso) 
+al tildar en Debuggeing Options - Security - 
+* Igrnoe path an extention
+* Igrnore timestamp
+* Ignore CRC of code section
+
+los BPX en las apis se mantienen luego de reiniciarlo.
+Puede que no siempre se vean las APIS cargadas desde el inicio. Pues las carga en tiempo de ejecucion.
+
+
+EnumProcesses -> Recupera el identificador de proceso de cada objeto de proceso del sistema.
+[out] lpidProcess
+
+Puntero a una matriz que recibe la lista de identificadores de proceso.
+
+[in] cb
+
+Tamaño de la matriz pProcessIds , en bytes.
+
+[out] lpcbNeeded
+
+Número de bytes devueltos en la matriz pProcessIds .
+Si la función se realiza correctamente, el valor devuelto es distinto de cero.
+(nos devolverá el PROCESS IDENTIFIER o PID de cada proceso )
