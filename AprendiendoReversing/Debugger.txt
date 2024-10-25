@@ -52,4 +52,11 @@ Si la función se realiza correctamente, el valor devuelto es distinto de cero.
 
 En el ejemplo: 
 2D4 -> 02D4 - PERO EN L DUMP SE BUSCA COMO D4 02
-2F4 -> 02F4 -> F4 02(virtual trabajo)
+2F4 -> 02F4 -> F4 02(virtual trabajo) por ejemplo - recordar que el pid cambia cada vez que se reinicia
+
+
+
+----------------
+el PID es un identificador genérico, en toda tu maquina, en cualquier proceso el PID del OLLYDBG será el mismo mientras no se reinicie, en mi caso será 2d4, ahora el handle, como su nombre lo indica es un manejador, o sea que es un numero que te devuelve el sistema para que tu programa pueda manejar ese proceso, y el numero puede variar para cada programa, es como una solicitud para controlarlo, si no la pedís no tendrás el numerito y no lo podrás controlar, si lo pedís el sistema te devolverá el manejador y lo podrás manejar
+
+OpenProcess: devolverá el manejador del proceso que esta corriendo, en resumidas cuentas es lo que el programa quiere saber en este caso.
