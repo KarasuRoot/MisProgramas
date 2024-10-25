@@ -48,3 +48,8 @@ Tamaño de la matriz pProcessIds , en bytes.
 Número de bytes devueltos en la matriz pProcessIds .
 Si la función se realiza correctamente, el valor devuelto es distinto de cero.
 (nos devolverá el PROCESS IDENTIFIER o PID de cada proceso )
+
+
+En el ejemplo: 
+2D4 -> 02D4 - PERO EN L DUMP SE BUSCA COMO D4 02
+2F4 -> 02F4 -> F4 02(virtual trabajo)
