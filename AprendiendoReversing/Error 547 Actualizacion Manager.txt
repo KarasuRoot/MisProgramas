@@ -1,0 +1,77 @@
+Error 547 en RegESPAFIP - RegEsp:
+Caso puerto docksud con base error en manager
+Actualziar y esperar a que devuelva error - hay que ver registros estan en una tabla y faltan en otra - eso se hace con: select * from regesp where resraf_cod not in (select raf_cod from regespafip)
+
+
+ACTIVRENTASEMP Y EMP:
+
+select ActivRentasEmp.arcemp_Codigo, emp.emp_codigo 
+from ActivRentasEmp left join emp
+on ActivRentasEmp.arcemp_Codigo = emp.emp_codigo
+order by  emp.emp_codigo 
+
+Eliminar los que aparecen en null en la columna Emp
+
+
+BAS Y PERIODOSGAN:
+
+select bas.bas_codigo,bas.basprg_codigo, periodosgan.prg_Codigo 
+from bas right join periodosgan
+on bas.basprg_codigo=  periodosgan.prg_Codigo 
+order by periodosgan.prg_codigo
+
+delete from periodosgan where prg_codigo='2004'
+
+
+BAS Y EJE:
+
+select eje.emp_codigo, eje.eje_nroeje, bas.eje_emp_codigo 
+from eje left join bas 
+on eje.emp_codigo = bas.eje_emp_codigo and eje.eje_nroeje = bas.eje_nroeje
+order by  bas.eje_emp_codigo 
+
+
+EMP Y PAISES:
+
+select emp.emppai_cod, paises.pai_cod 
+from emp left join paises
+on emp.emppai_cod = paises.pai_cod
+order by paises.pai_cod
+
+update emp set emppai_cod='ARG'  
+insert into paises (pai_cod, pai_desc,pai_codadic,pai_fecmod,paiusu_codigo,pai_habili) values (1,'ARG',1,12/10/2011,'ADMIN',1)
+
+
+select eje.emp_codigo, periodosgan.prg_Codigo 
+from eje right join periodosgan
+on eje.emp_codigo=  periodosgan.prg_Codigo 
+order by periodosgan.prg_codigo
+
+
+
+select eje.emp_codigo, eje.eje_nroeje, bas.eje_emp_codigo 
+from eje right  join bas 
+on eje.emp_codigo = bas.eje_emp_codigo and eje.eje_nroeje = bas.eje_nroeje
+order by  bas.eje_emp_codigo 
+
+
+
+REGESP Y REGESPAFIP
+use manager
+select regesp.resraf_Cod, RegEspAFIP.raf_Cod from RegEsp left join RegEspAFIP
+on RegEsp.resraf_Cod = RegEspAFIP.raf_Cod where RegEspAFIP.raf_Cod is null and regesp.resraf_Cod is not null
+order by RegEsp.resraf_Cod
+-- elimina los regitros del lado izquierdo
+
+use manager
+select regesp.resraf_Cod, RegEspAFIP.raf_Cod from RegEsp rigth join RegEspAFIP
+on RegEsp.resraf_Cod = RegEspAFIP.raf_Cod where RegEspAFIP.raf_Cod is null and regesp.resraf_Cod is not null
+order by RegEsp.resraf_Cod
+-- elimina registros del lado derecho
+
+
+
+Compara usu con usu2
+select usu.usu_codigo, usu2.us2usu_Codigo from usu
+left join usu2 on  usu.usu_codigo = usu2.us2usu_Codigo
+order by usu.usu_codigo
