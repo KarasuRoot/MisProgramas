@@ -1,0 +1,148 @@
+AntiDebuggers = cuando detectan que hay un debugger trabajando sobre ellos,  se cierran o comienzan a funcionar en forma diferente
+
+
+IsDebuggerPresent = Api que detecta la ejecucion de un Debugger
+esta api o función es exportada por la KERNEL32.dll
+no tiene parámetros 
+si el programa esta siendo debuggeado el retorno es un valor distinto de cero
+
+
+PostQuitMessage = pasa un mensaje para cerrar la ventana
+postea un mensaje WM_QUIT -- es una indicación de que esta cerrando cosas
+
+ExitProcess  => cierra el proceso
+*Para superar el IsDebuggerPresent en el crackme Crackme1.exe de la parte 19 - cambiar el salto y parchear
+
+**En Olly existe plugin que pueda evitar la detección por medio de la api IsDebuggerPresent
+
+TEB O TIB Muy importante la TIB podemos ver por ejemplo donde comienza y donde termina el stack del programa.
+- 1)BUSCAR EL INICIO DEL TIB en la ventana de los registros del OLLYDBG
+Ver el TIB en el dump (ya no esta en la misma posición si se arranca otra vez, siempre cambia)
+le sumo 30 al inicio del TIB y hallo su contenido 
+
+plugin para evitar el IsDebuggerPresent (HideDebbuger) en OLLYDBG
+
+
+------------------------------------------------------------------------
+Existe la posibilidad de detectar por nombre de proceso (como en la parte 20 del curso) 
+al tildar en Debuggeing Options - Security - 
+* Igrnoe path an extention
+* Igrnore timestamp
+* Ignore CRC of code section
+
+los BPX en las apis se mantienen luego de reiniciarlo.
+Puede que no siempre se vean las APIS cargadas desde el inicio. Pues las carga en tiempo de ejecucion.
+
+
+EnumProcesses -> Recupera el identificador de proceso de cada objeto de proceso del sistema.
+[out] lpidProcess
+
+Puntero a una matriz que recibe la lista de identificadores de proceso.
+
+[in] cb
+
+Tamaño de la matriz pProcessIds , en bytes.
+
+[out] lpcbNeeded
+
+Número de bytes devueltos en la matriz pProcessIds .
+Si la función se realiza correctamente, el valor devuelto es distinto de cero.
+(nos devolverá el PROCESS IDENTIFIER o PID de cada proceso )
+
+
+En el ejemplo: 
+2D4 -> 02D4 - PERO EN L DUMP SE BUSCA COMO D4 02
+2F4 -> 02F4 -> F4 02(virtual trabajo) por ejemplo - recordar que el pid cambia cada vez que se reinicia
+
+
+
+----------------
+el PID es un identificador genérico, en toda tu maquina, en cualquier proceso el PID del OLLYDBG será el mismo mientras no se reinicie, en mi caso será 2d4, ahora el handle, como su nombre lo indica es un manejador, o sea que es un numero que te devuelve el sistema para que tu programa pueda manejar ese proceso, y el numero puede variar para cada programa, es como una solicitud para controlarlo, si no la pedís no tendrás el numerito y no lo podrás controlar, si lo pedís el sistema te devolverá el manejador y lo podrás manejar
+
+OpenProcess: devolverá el manejador del proceso que esta corriendo, en resumidas cuentas es lo que el programa quiere saber en este caso.
+-----------------
+
+CreateToolhelp32Snapshot
+
+Toma una instantánea de los procesos especificados, así como de los montones, módulos y subprocesos utilizados por estos procesos.
+
+Valor de retorno
+Si la función tiene éxito, devuelve un identificador abierto a la instantánea especificada.
+(Pues lo que hace esta api es tomar como una fotografía o instantánea (SNAPSHOT) de los procesos que están corriendo en la maquina, pero de esta foto, solo nos devuelve el handle o manejador de la misma ya que en los parámetros no hay ningún buffer donde guardara la lista de procesos)
+
+------------------------
+Process32First 
+
+Recupera información sobre el primer proceso encontrado en una instantánea del sistema.
+
+Parámetros
+[in] hSnapshot
+
+Identificador de la instantánea devuelta desde una llamada anterior a la función CreateToolhelp32Snapshot .
+
+[in, out] lppe
+
+Puntero a una estructura PROCESSENTRY32 . Contiene información de proceso como el nombre del archivo ejecutable, el identificador de proceso y el identificador de proceso del proceso primario.
+
+Devuelve TRUE si la primera entrada de la lista de procesos se ha copiado en el búfer o FALSE en caso contrario. 
+-----------
+
+Process32Next 
+
+Recupera información sobre el siguiente proceso registrado en una instantánea del sistema.
+
+Parámetros
+[in] hSnapshot
+
+Identificador de la instantánea devuelta desde una llamada anterior a la función CreateToolhelp32Snapshot .
+
+[out] lppe
+
+Puntero a una estructura PROCESSENTRY32 .
+
+Valor devuelto
+Devuelve TRUE si la siguiente entrada de la lista de procesos se ha copiado en el búfer o FALSE de lo contrario.
+
+
+*** en la api Process32First que junto con Process32Next son las encargadas de leer el resultado de la foto, e ir sacando la información de los procesos que están corriendo en nuestra maquina.
+
+------------
+
+FindWindowA 
+
+Recupera un identificador de la ventana de nivel superior cuyo nombre de clase y nombre de ventana coinciden con las cadenas especificadas. Esta función no busca ventanas secundarias. Esta función no realiza una búsqueda con distinción entre mayúsculas y minúsculas.
+
+Si la función se ejecuta correctamente, el valor devuelto es un identificador para la ventana que tiene el nombre de clase y el nombre de la ventana especificados.
+
+Si la función no se realiza correctamente, el valor devuelto es NULL.
+
+-----------
+SetUnhandledExceptionFilter 
+Permite que una aplicación reemplace el controlador de excepciones de nivel superior de cada hilo de un proceso.
+
+Después de llamar a esta función, si ocurre una excepción en un proceso que no se está depurando y la excepción llega al filtro de excepciones no controladas, ese filtro llamará a la función de filtro de excepciones especificada por el parámetro
+
+[in] lpTopLevelExceptionFilter
+
+Un puntero a una función de filtro de excepción de nivel superior que se llamará siempre que la función UnhandledExceptionFilter obtenga el control y el proceso no se esté depurando. Un valor de NULL para este parámetro especifica el manejo predeterminado dentro de UnhandledExceptionFilter .
+
+Valor de retorno
+La función SetUnhandledExceptionFilter devuelve la dirección del filtro de excepción anterior establecido con la función. Un valor de retorno NULL significa que no existe ningún controlador de excepción de nivel superior actual.
+
+-----------
+
+UnhandledExceptionFilter 
+
+Una función definida por la aplicación que pasa excepciones no controladas al depurador, si el proceso se está depurando. De lo contrario, muestra opcionalmente un cuadro de mensaje de error de aplicación y hace que se ejecute el controlador de excepciones. Esta función solo se puede llamar desde dentro de la expresión de filtro de un controlador de excepciones.
+
+Parámetros
+[in] ExceptionInfo
+
+Un puntero a una estructura EXCEPTION_POINTERS que especifica una descripción de la excepción y el contexto del procesador en el momento de la excepción. Este puntero es el valor de retorno de una llamada a la función GetExceptionInformation .
+
+Valor de retorno
+La función devuelve uno de los siguientes valores.
+
+--------------
+
+
