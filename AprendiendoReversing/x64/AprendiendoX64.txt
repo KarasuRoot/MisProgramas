@@ -1,5 +1,5 @@
 En x64 si scrolleo por ejemplo en el desensamblador y aprieto "*" me llegva al EIP (registro qe apunta la proxima instruccion)
-En 32 bits pasa por stack los parametros de las funciones - rellenar variables - alamacenar datos - apuntada por ESP
+En 32 bits pasa por stack los parametros de las funciones - rellenar variables - alamacenar datos - apuntada por ESP 
 
 F2 -> Breakpoint
 F7 -> Ejecuta cada instruccion entrando en las funciones (STEP INTO)
@@ -29,4 +29,13 @@ Ejemplo si en la memoria tengo un valor = 41424344 - en realidad se lee de derec
 
 Si veo en el dump por ejemplo (ver imagen tamaños.jpg)
 -----------------------------------------------------------> esto es para 32 bits
+Video 02 CursoReversing Desde 0 (Instrucciones 1)
+--------------
+Con barra espaciadora se modifica en el desensamblado las instrucciones
+
+
+Instrucciones:
+MOV 	(Mover/copia)		MOV Dest, FUENTE	Dest = FUENTE
+XCHG	Intercambiar		XCHG Op1,Op2		Op1 = Op2, Op2 = Op1
+
 
