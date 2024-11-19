@@ -1,0 +1,66 @@
+(Reocrdar que usamos USIARIO: narvaja // password: 98989898)
+Ejercicio 16
+1ero
+Ponemos un BP en la API (Bp GetDlgItemTextA*/) 
+Damos RUN hasta que se detiene en la API correspondiente ->  en el stack se ve la llamada a la API desde el crackme y los paraemtros -> junto a ellos esta el Buffer
+El buffer es donde guara el texto ingresado -> notar que es del estilio Buffer = Crackme.0040218E (Direccion de memoria)
+La Forma de ver el valor en el buffer es: desde el stack seleccionamos la linea del buffer -> Click derecho -> Follow in Dump
+Como en ese momento aun no se ejecuto la API -> se encuentra vacio el buffer -> para ello desde OLLYDBG -> DEBUG - EXECUTE TILL RETURN -> se detiene en el proximo RET mas sercano -> Apretamos F7 para volver al programa y alli muestra el buffer sobreescrito - como en el ejemplo del crackme usado tiene usuer y password -> el primer buffer guarda el usuario y el segundo el password
+
+Se coloca un BPM ON ACCESS EN EL SERIAL FALSO PARA SEGUIR LO QUE HACE (Click derecho -> Brakpont -> memory, on access (marcando los bytes deseados (todo el serial falso)) Para cuando se detiene se´puede ver que se identifca que el programa lee el primer Byte del serial falso
+En el ejemplo (password 98989898 - usu: narvaja) toma el primer Byte - el Olly especifica:DS:[0040217E]=39 ('9')
+BL=00 --> eso quiere decir q el 39 en la tabla ASCII ESTANDAR el caracter '9' en HEXA es 39 - pasa  BL - luego testea si es 0 - TEST BL, BL - si llega  a 0, entra en el SALTO JE
+y sale del bucle -- esto para recorrer todo el string -- Como no salta - llega a SUB BL 30 -- es decir que resta 30 al valor anterior en BL (39)
+** asi queda el valor numero decimal del primer caracter del serial falso que es 9 -- ver pagina 3/4
+Luego multipica EDI con EAX (valores inicializadoes EAX en 0A antes de comenzar la rutina y EDI --> se puso en 0 antes de entrar en loop con XOR EDI,EDI)
+IMUL con dos operandos, en dicho caso multiplica ambos considerando el signo, y guarda el resultado en el primer operando o sea EDI en este caso
+Luego se suma a EDI el valor de EBX
+Luego en EDI queda el valor 9
+Luego INC ESI -> incrementa ESI para retoar el inicio de LOOP y asi llega al JMP y este hace que lea el siguiente byte del seririal falso.
+Coloca AL el valor 0A-> El valor 38 se mueve a BL --> el valor 38(En la tabla ASCII el caracter '8' Es representado por el 38 en HEXA) -> teste si vale 0 -> Le resta 30 y llega al IMUL -->va a multiplicar el valor de EDI (que era 00000009 en la pasada anterior)
+Entonces -> IMUL EDI, EAX (EAX 0000000A - EDI 00000009) = EDI ahora vale 0000005A (90 en decimal)
+EDI suma el valor de EBX (EDI 0000005A - EBX 00000008= = EDI = 00000062 (98 en decimal)
+y asi va armando el serial correcto -> se pone un BP en la salida del loop para ahorrar tiempo y veo que el resultado se guarda en EDI = 05E6774A --
+que curiosamente, el serial original (98989898 en caracter) -> lo trasnforma en Hexa (05E6774A) 
+Luego, el siguiente paso es hacer un XOR EDI, 1234 (es decir XOR 05E6774A, 1234) da como resultado 5E6657E y lo guarda en EDI -> luego con MOV EBX,EDI -> "Copia" el valor de EDI (5E6657E) en EBX -
+Luego de salir del RET y hacer el epilogo de la funcion -> llega a CMP EAX (0000547B), ebx (5E6657E)
+Si la comparacion es correcta o no es donde luego viene el salto que indica si va a chico bueno o malo
+
+Entonces:
+Sabemos que llegado este punto -> EBX = (Valor en hexa del serial ingresado) XOR 1234
+
+Pero tenemos que buscar que EBX = EAX
+
+Entonces si se reemplaza EBX por EAX -->
+EAX = (VALOR HEXA DEL SERIAL CORRECTO) XOR 1234
+seguimos
+EAX XOR 1234 = (VALOR HEXA SERIAL CORRECTO)
+Como llegamos traceando, sabemos que EAX = 0000547B
+Esto quiere decir entonces que 0000547B XOR 1234 = (Valor hexa del serial correcto) esto es: 0000547B XOR 1234 = 464F (Esto lo hago en la calculadora de windows como programador  y es el valor en hexa)
+Entonces para el user "narvaja" El serial en HEXA es 464F --> y en Decimal es 17999
+
+-------------------------------------------------------
+
+Operaciones en el username
+Ponemos un BP GetDlgItemTextA -> Run
+Al detenerse -> ver el buffer donde almacena el usuario (username:karasu / pass: 1234567) -> follow in dump en el buffer -> Ctrl + F9
+Selecciono en el dump los bytes -> breackpoint on acces -> F9 + otro F9 y llego al comienzo de lo que parece ser el bucle -> comienza con el caracter 'k'
+6B en Hexa -> 'k' el caracter -> AL vale 01 -- se realiza mov al, byre ptr ds (ESI)
+Luego compara CMP AL,41 - en olly se ve que indica AL = 6B ('k')
+Luego hace SUB AL, 20 (es decir que le resta, 6B - 20= AL = 4B (Cursioso, por que 4B es el caracter 'K')
+Lo que hace basicamente es pasar el username de minsucula a Mayusucula en hexa -- es decir de (Charater: karasu - hexa = 6B6172617375)  lo pasa a (Character: KARASU - hexa = 4B4152415353)
+
+Ahora:
+para el usuario como genera la clave?
+203 (Esto es el nombre que lo pasa a mayusculas y luego lo suma) 
+Luego hace XOR 5678 -> 547B y luego -> 547B XOR 1234 -> Serial ok
+
+Es decir al usuario lo convierte primero en mayusculas -> Luego -> toma cada caracter y los suma entre si, ejemplo: narvaja -> lo convierte en NARVAJA -> y suma N(4E)+A(41)+R(52)+V(56)+A(41)+J(4A)+A(41) (recordar que los pasa a Hexa) = 203 ==> entonces luego le aplica el XOR 5678 => 547B y luego a esto le aplicamos XOR 1234
+
+
+
+
+*/ Recupera el título o el texto asociado a un control en un cuadro de diálogo.
+Si la función se ejecuta correctamente, el valor devuelto especifica el número de caracteres copiados en el búfer, sin incluir el carácter nulo de terminación.
+
+Si la función no se realiza correctamente, el valor devuelto es cero. Para obtener información de error extendida, llame a GetLastError.
