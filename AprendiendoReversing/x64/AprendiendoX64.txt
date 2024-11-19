@@ -1,0 +1,32 @@
+En x64 si scrolleo por ejemplo en el desensamblador y aprieto "*" me llegva al EIP (registro qe apunta la proxima instruccion)
+En 32 bits pasa por stack los parametros de las funciones - rellenar variables - alamacenar datos - apuntada por ESP
+
+F2 -> Breakpoint
+F7 -> Ejecuta cada instruccion entrando en las funciones (STEP INTO)
+F8 -> Ejecuta cada instruccion sin entrara  las funciones (STEP OVER)
+F9 -> RUN  (se ejecuta todo)
+
+
+Todas las call (funcioens) terminan en un RET
+Si flecha gris -> no salta
+Si flecha roja -> salta
+
+bit (0/1) unidad mas pequeña
+Byte = son 8 bits
+Word = 2 Byte
+Dword = 4 Byte
+
+
+0 	0 	0 	0	0 	0 	0 	0	-> BINARIO
+2^7     2^6	2^5  	2^4	2^3	2^2	2^1  	2^0
+128	64	32	16	8	4	2	1
+
+Si quiero representar 10 en binario seria:  00001010
+
+
+En la memoria (Ventana del DUMP) se guardan con la nomeclatura little endian -> el byte mas signigicativo, es el de la derecha.
+Ejemplo si en la memoria tengo un valor = 41424344 - en realidad se lee de derecha a izquierda - osea que seria 44 43 42 41 -- esto es asi a exepcion sobre la ventana del stack y los registros, es decir que esta con la nomeclatura big endian - en byte mas significativo es el de la izquierda (se lee de izquierda a derecha) - se lee como noostros interpretamos habitualmente -
+
+Si veo en el dump por ejemplo (ver imagen tamaños.jpg)
+-----------------------------------------------------------> esto es para 32 bits
+
