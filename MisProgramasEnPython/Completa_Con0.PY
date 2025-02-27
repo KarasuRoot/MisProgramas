@@ -1,3 +1,8 @@
+'''
+Dado un archivo txt con varios numeros, completar con 0 - haciendo que el formato sea de 4 digitos
+
+'''
+
 with open('D:/Eugenio/archivo1.txt', 'r') as archivo:
     numeros = [line.strip() for line in archivo]
 
