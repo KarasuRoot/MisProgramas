@@ -1,7 +1,17 @@
-#Bucle FOR (PARA) - se sabe cauntas veces se va a repetir
-#se puede trabajar con listas, tuplas, conjuntos - trabnaja con colecciones
+'''
 
-'''Ejemplo 1
+Bucle FOR (PARA) - se sabe cauntas veces se va a repetir
+se puede trabajar con listas, tuplas, conjuntos - trabnaja con colecciones
+
+Repite la ejecución del bloque de código para cada elemento de la secuencia secuencia, asignado dicho elemento a i en cada repetición.
+
+Se puede interrumpir en cualquier momento la ejecución del bloque de código con la instrucción break o saltar la ejecución para un determinado elemento de la secuencia con la instrucción continue.
+
+
+
+
+
+Ejemplo 1
 for i in [1,2,3,4,5]: Recorre elemento por elemento
     print('Hola')
 
@@ -67,4 +77,17 @@ for i in coleccion:
 
 ''' Si quiseramos hacer que se reptia una cantidad grande de veces, por ejemopplo 50 veces
 no hace falta generar una coleccion de 50 elementos - se puede realizar con range
+
+A menudo se usan con la instrucción range:
+
+range(fin) : Genera una secuencia de números enteros desde 0 hasta fin-1.
+range(inicio, fin, salto) : Genera una secuencia de números enteros desde inicio hasta fin-1 con un incremento de salto.
+for i in range(1, 10, 2):
+    print(i, end=", ")
+
+
+
+
+
+
 '''

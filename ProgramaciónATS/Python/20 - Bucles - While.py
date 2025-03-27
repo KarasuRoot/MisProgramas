@@ -1,5 +1,6 @@
-#Bucle While (Mientras) - Raiz cuadrada - se ejecuta N veces o 0 veces
-'''
+''' Bucle While (Mientras) - Raiz cuadrada - se ejecuta N veces - mientras la condicion sea verdadera
+Se puede interrumpir en cualquier momento la ejecución del bloque de código con la instrucción break.
+
 import math
 numer = int(input('Digite un numero: '))
 while numer < 0: #Nos aseguramos que no sea negativo
