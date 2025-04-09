@@ -33,3 +33,38 @@ Hijackthis
 --- Bucar ---
 base64
 certutil
+
+
+Entorno: Es un espacio virtua o fisico donde se realizan diferentes pruebas a las muestras del malwareware, que permite identificar su funcionamiento de forma segura
+- Lab Virtual
+- Lab Automatizado (Ejemplo Cuckoo/ anyrun)**
+- Lab fisico
+Cuidado: Existen muestras que pueden detectar si estan siendo ejecutados en entorno virtual - eso implica que la muestra cambie su comportamento parcial o totalmente o no se ejecute.
+
+** Sandbox online = permite hacer una prubea dinamica sin riesgos en la insfraestructura
+
+
+Usualmente cuando se habla de archivos maliciosos del estilo word/excel/powerpoint/etc se usan macros para llevar a cabo la activiad maliciosa
+
+Entropia: dificulta el analisis de un archivo
+
+Sysisternals -
+autoruns / sirve para ver todo lo que el s.o carga al iniciarse.- para detectar persistencia
+ProccesExplorer / sirve para ver todos los procesos que se estan ejecutando
+Processmonitor / Puede ver la cadena de procesos
+
+
+
+--- TOOLS ---
+HasMyFile - creacion de hash 
+Ghidra * Requiere Java Run time
+https://www.garykessler.net/library/file_sigs.html // Firma de archivos
+ProcessHacker 
+ProcDOT  - Genera un grafo del comportamiento de un ejecutbale
+Wireshark
+ExplorerSuite
+Windump 
+Hijackthis
+--- Bucar ---
+base64
+certutil

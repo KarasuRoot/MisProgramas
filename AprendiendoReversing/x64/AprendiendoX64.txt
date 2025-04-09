@@ -1,3 +1,4 @@
+
 En x64 si scrolleo por ejemplo en el desensamblador y aprieto "*" me lleva al EIP (registro que apunta la proxima instruccion)
 En 32 bits pasa por stack los parametros de las funciones - rellenar variables - alamacenar datos - apuntada por ESP 
 
@@ -109,3 +110,107 @@ El maximo positivo seria 7F
 ----------------
 
 Virtual adress
+=======
+En x64 si scrolleo por ejemplo en el desensamblador y aprieto "*" me lleva al EIP (registro que apunta la proxima instruccion)
+En 32 bits pasa por stack los parametros de las funciones - rellenar variables - alamacenar datos - apuntada por ESP 
+
+F2 -> Breakpoint
+F7 -> Ejecuta cada instruccion entrando en las funciones (STEP INTO)
+F8 -> Ejecuta cada instruccion sin entrara  las funciones (STEP OVER)
+F9 -> RUN  (se ejecuta todo)
+
+
+Todas las call (funcioens) terminan en un RET
+Si flecha gris -> no salta
+Si flecha roja -> salta
+
+bit (0/1) unidad mas pequeña
+Byte = son 8 bits
+Word = 2 Byte
+Dword = 4 Byte
+
+
+0 	0 	0 	0	0 	0 	0 	0	-> BINARIO
+2^7     2^6	2^5  	2^4	2^3	2^2	2^1  	2^0
+128	64	32	16	8	4	2	1
+
+Si quiero representar 10 en binario seria:  00001010
+
+
+En la memoria (Ventana del DUMP) se guardan con la nomeclatura little endian -> el byte mas signigicativo, es el de la derecha. En HEXADECIMAL
+Ejemplo si en la memoria tengo un valor = 41424344 - en realidad se lee de derecha a izquierda - osea que seria 44 43 42 41 -- esto es asi a exepcion sobre la ventana del stack y los registros, es decir que esta con la nomeclatura big endian - en byte mas significativo es el de la izquierda (se lee de izquierda a derecha) - se lee como noostros interpretamos habitualmente -
+
+Si veo en el dump por ejemplo (ver imagen tamaños.jpg)
+-----------------------------------------------------------> esto es para 32 bits
+Video 02 CursoReversing Desde 0 (Instrucciones 1)
+--------------
+Con barra espaciadora se modifica en el desensamblado las instrucciones
+
+
+Instrucciones:
+NOP - NO hace nada (No Operation)
+MOV 	(Mover/copia)		MOV Destino, FUENTE	Destino = FUENTE	No cambia Flags
+XCHG	Intercambiar		XCHG Op1,Op2		Op1 = Op2, Op2 = Op1	No cambia Flags
+ADD	Suma			ADD Destino+FUENTE				No cambia los siguientes FALGS: DF//IF//TF
+SUB	Resta			SUB Destino-Fuente				No cambia los siguientes FALGS: DF//IF//TF
+
+
+
+
+* Para ver el contenido de una direccion de memoria -> Click derecho en la pantalla del desenesmablador, Follow in DUMP -> Constant: 00010000 (ver Ejemplo00.png)
+* En MOV podes mover el valor de una direccion de memoria - [] contenido de esa direccion de memoria - y se escribe 0x+Direccion  - ejemplo MOV EAX, [0x77631000]
+*Si quiero volver a ejecutar una instruccion ya ejecutada, podemos hacer Click derecho -> SET NEW ORIGIN HERE -> Cambia el EIP donde estara marcado
+*Siempre del segundo argumento al primero - ejemplo en MOV si tuviera MOV EAX, 5
+Eso quiere decir que movera/copiara el valor 5 en EAX
+---------------------------
+
+Registros = Porcion de memoria muy rapida que forma parte del procesados y sirve para intercambiar datos que se usan frecuentemente - los registros de 32 bits tienen un tamaño de 32 bits - osea 4 Bytes (8 bits) = 1 DWORD
+- Especiales:
+EIP (Instrucction Pointer) -> apunta a la direccion de memoria de la instruccion que se va a ejecutar (ver EIP.PNG EIP2.png)
+ESP (Stack Poiner) -> Apunta a la parte superior del strack (Ver ESP.png)
+EBP (Base Pointer) -> apunta a la parte inferior(base) del stack (VER EBP.png)
+
+- Proposito General
+EAX = Acumulador y gaurda resultados de las funciones
+EBX/EDX = Apunta generalmente a DATA pero no es especifico
+ECX = Contador - ejemplo en loop o copiamos bloques de memoria o cualquier operacion que sea repetitiva
+ESI/EDI = Usados para copiar bloques de memoria, de un lugara  otro (ESI = FUENTE Y EDI = DESTINO)
+EFL(EFLAGS) = Muestra el estado general de los flags
+*Ver REGISTRSO.png
+
+Ejemplo
+EAX = 00 8F FB 18 - 32 BITS (1 DWORD) 
+AX = FB 18 - 16 BITS (1 WORD) 
+AH = FB - 8 BITS (1 BYTE) 
+AL = 18 - 8 BITS (1 BYTE)
+
+Exepcion: EBP // ESI //  EDI // ESP solo se pueden dividr en 16 bits
+Es decir:
+EBP -> BP
+ESI -> SI
+EDI -> DI
+ESP -> SP
+
+---------
+Flags = registros que pueden tomar valores 1 o 0 y se activan segun los resultados de las operaciones
+- Flag Z (ZF) / Zero Flag = Se activa cuando el resultado de una operacion es 0 - Ejemplo SUB EAX,EBX (EAX = 5 y EBX = 5 --> El resultado de 5-5=0 y se actviva el flag)  
+- Flag C (CF) / Carry Flag = Valores que no concideran el signo - UNSIGNED - Se activa cuando el resultado de una operacion es mayor a lo que se pueda almacenar en el valor de un registro - Ejemplo ADD EAX + 2   (EAX = FFFFFFFF) - se activa el CF
+- Flag O (OF) / Overflow Flag = Similar al anterior, pero este SI CONSIDERA EL SIGNO - Se activa cuando el resultado de una operacion, cambia de signo
+- Flag S (SF) Signed Flag = Se activa caundo el resultado de una operacion es NEGATIVO
+
+* No todas las operaciones afectan a la activacion/desactivacion de FLAGS
+
+Reresentacion de numeros negativos en el procesador
+Siempre que se considere DWORD
+El numero mas pequeño es 00 00 00 00
+El numero mas grande es FF FF FF FF
+El numero 7F FF FF FF - maximo positivo
+El numero 80 00 00 00 - maximo negativo
+Y SE DECREMENTA HASTA LLEGAR A FF FF FF FF - Minimo Negativo
+
+Si fuera un WORD
+El maximo positivo 7F FF
+
+Si fuera un byre
+El maximo positivo seria 7F
+>>>>>>> 0fc1f21a01c1b67761d1f1d11644ee83894374ac
