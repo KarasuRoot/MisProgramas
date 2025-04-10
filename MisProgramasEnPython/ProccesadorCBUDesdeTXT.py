@@ -1,7 +1,12 @@
+'''
+lee una lista de CBUs desde un archivo de texto, 
+intenta validar su formato, extrae información relevante (códigos de banco, sucursal, cuenta, dígitos verificadores) 
+y luego escribe esta información, junto con el CBU original, en un archivo de Excel. 
+Los CBUs que no coinciden con el formato esperado son omitidos y se muestra una advertencia.'''
 import openpyxl
 import re
 
-archivo_txt = 'D:\\cbus.txt'  # Reemplaza con la ruta de tu archivo TXT
+archivo_txt = 'D:\\cbus.txt'  # Hay que reemplazar donde esta el TXT con los CBU
 archivo_excel = 'D:\\cbus.xlsx'
 
 try:

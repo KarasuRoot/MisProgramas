@@ -1,3 +1,15 @@
+'''
+este programa lee un archivo de Excel, asume que una de sus columnas ('leg_cbu') contiene CBUs,
+extrae partes específicas de cada CBU basándose en su posición 
+(los primeros 3 caracteres, los siguientes 4, etc.), 
+crea nuevas columnas en el DataFrame para almacenar estas partes extraídas, 
+y finalmente guarda este DataFrame modificado en un nuevo archivo de Excel.
+Es importante destacar que este programa asume una estructura específica para los CBUs 
+(longitud y posición de los componentes). Si los CBUs en el archivo de entrada no siguen esta estructura, 
+la extracción de los datos en las nuevas columnas podría ser incorrecta.
+'''
+
+
 import pandas as pd
 
 archivo_entrada = 'D:\\IMPO.xlsx'  # Reemplaza con la ruta de tu archivo

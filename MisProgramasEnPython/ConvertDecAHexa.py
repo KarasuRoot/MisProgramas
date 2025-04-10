@@ -1,3 +1,4 @@
+#Solicito 2 numeros al usuario, luego esos numeros son convertidos en Hexadecimal
 def DecAHexa():
     num1 = int(input('Ingrese el primer numero: '))
     numhex1 = hex(num1)[2:].upper()
