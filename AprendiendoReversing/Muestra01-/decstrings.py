@@ -8,7 +8,7 @@ import dnlib
 from dnlib.DotNet import *
 from dnlib.DotNet.Emit import OpCodes
 
-def xor(string, key):
+def xor(string, key): 
     for i in range(len(string)):
         string[i] ^= key[i % len(key)];
         
