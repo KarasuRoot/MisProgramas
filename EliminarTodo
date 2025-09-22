@@ -1,0 +1,66 @@
+
+1. Cierra Visual Studio Code y todos los programas de desarrollo
+Asegúrate de que Visual Studio Code y cualquier otra ventana de terminal o programa de desarrollo estén completamente cerrados. Esto evitará problemas de "archivo en uso" durante la desinstalación.
+
+2. Elimina tu información de Git
+Este es el paso más importante para proteger tu cuenta. Abre una ventana de Símbolo del sistema o PowerShell y ejecuta los siguientes comandos uno por uno:
+
+Borra tus credenciales de Git (nombre de usuario, contraseña, token, etc.):
+
+PowerShell
+
+git credential-manager erase
+Si te aparece un mensaje de que no se encuentra el comando, significa que no estás usando Git Credential Manager, y tus credenciales no están guardadas de esa forma.
+
+Borra la configuración global de usuario:
+
+PowerShell
+
+git config --global --unset user.name
+git config --global --unset user.email
+Estos comandos eliminan la información que pusiste con git config --global.
+
+Borra las claves SSH (si las creaste):
+Abre el Explorador de archivos y navega a la carpeta de tu usuario (generalmente C:\Users\TuUsuario). Si ves una carpeta llamada .ssh, bórrala. Esto eliminará cualquier clave SSH que hayas creado para conectarte a GitHub, GitLab, etc.
+
+Borra el archivo de configuración global de Git:
+Busca un archivo llamado .gitconfig en la carpeta de tu usuario. Si lo encuentras, bórralo. Este archivo contiene la configuración global de Git.
+
+3. Desinstala los programas de la computadora
+Ahora, puedes desinstalar los programas de la manera tradicional de Windows:
+
+Abre el Panel de control. Puedes buscarlo en el menú de inicio.
+
+Ve a Programas > Programas y características.
+
+Busca y desinstala los siguientes programas:
+
+Visual Studio Code: Es la primera cosa que debes desinstalar.
+
+Python: Busca "Python" en la lista y desinstala la versión que tengas instalada.
+
+Compiladores (MinGW, GCC, G++):
+
+Si instalaste MinGW-w64 con un instalador, busca "MinGW-w64" en la lista y desinstálalo.
+
+Si lo instalaste manualmente descomprimiendo una carpeta, ve al siguiente paso.
+
+4. Borra los archivos y carpetas restantes
+Algunos programas no se eliminan por completo con la desinstalación y dejan carpetas residuales. Es buena idea borrarlas manualmente:
+
+Carpeta de Python: Busca la carpeta donde se instaló Python (generalmente C:\Users\TuUsuario\AppData\Local\Programs\Python o C:\PythonXX). Bórrala por completo.
+
+Carpeta de los compiladores: Si instalaste los compiladores (como MinGW) extrayendo un archivo .zip, busca esa carpeta (por ejemplo, C:\MinGW o C:\msys64) y bórrala.
+
+5. Borra las variables de entorno (opcional pero recomendado)
+Si tu instalación configuró variables de entorno para los compiladores, puedes eliminarlas para limpiar por completo el sistema.
+
+Abre el menú de inicio y busca "editar las variables de entorno del sistema".
+
+Haz clic en Variables de entorno....
+
+En la ventana que se abre, busca la variable Path tanto en las "Variables de usuario" como en las "Variables del sistema".
+
+Haz doble clic en Path y elimina cualquier entrada que apunte a las carpetas de Python o a la carpeta bin de MinGW (por ejemplo, C:\MinGW\bin).
+
+Una vez que hayas completado todos estos pasos, tu computadora estará limpia y no quedará ninguna información tuya relacionada con estos programas ni con tu cuenta de Git.
