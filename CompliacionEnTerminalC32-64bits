@@ -1,0 +1,3 @@
+Para compilar en C/C++ - dese la terminal:
+Por ejemplo para 32 bits: gcc -m32 CalcSalario.c -o CalcSalario_32
+Por ejemplo para 64 bits: gcc -m64 CalcSalario.c -o CalcSalario_64
