@@ -1,12 +1,13 @@
 //Tipos de datos en C
 #include<stdio.h>
 int main(){
-    char a = 'e'; //Se almacena en una variable a - el elemento "e"
-    short b = -15;
-    int c = 1024;
-    unsigned d = 128;
-    long e = 123456;
-    float f = 15.678;
+    char a = 'e'; //Se almacena en una variable a - el elemento "e" - Tamaño: 1byte Rango:0..255
+    short b = -15; // Tamaño = 2bytes Rango -128..127
+    int c = 1024; // Tamaño = 2bytes Rango -32768..32767
+    unsigned d = 128;// Tamaño = 2bytes Rango ..65535
+    long e = 123456; // Tamaño = 4bytes
+    float f = 15.678;// Tamaño = 4bytes
+    
     double g = 123123.123123;
     printf("El caracter es: %c\n",a); // para imprimir variables tipo char es  %c
     printf("El elemento definido como short es: %i\n",b); // para imprimir variables tipo shot es  %i
