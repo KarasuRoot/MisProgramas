@@ -4,4 +4,4 @@ después de que el usuario lo introduzca muestre por pantalla <NOMBRE> tiene <n>
 donde <NOMBRE> es el nombre de usuario en mayúsculas y <n> es el número de letras que tienen el nombre.
 '''
 nom = input('Indique su nombre:\n')
-print('El nombre ' + nom.upper() + ' tiene ' + str(len(nom)) + ' letras')
+print('El nombre ' + nom.upper() + ' tiene ' + str(len(nom)) + ' letras') 
