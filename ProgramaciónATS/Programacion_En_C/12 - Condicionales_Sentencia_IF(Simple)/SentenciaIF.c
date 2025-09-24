@@ -1,6 +1,6 @@
 /* 
 En programas condicionales, no todo el programa necesariamente se va a ejecutar,
- si usamos If podemos decir q la condicion correcta se va  a ejcutar
+ si usamos If podemos decir q la condicion correcta se va  a ejcutar - IF CONDICIONAL SIMPLE
 
 La sentencia if:
 if (condicion)

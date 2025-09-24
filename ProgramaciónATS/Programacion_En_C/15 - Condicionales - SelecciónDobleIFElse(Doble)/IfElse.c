@@ -1,4 +1,4 @@
-/*Sentencia if de dos altenativas: if-els
+/*Sentencia if de dos altenativas: if-else -Condicional Doble
 if (condicion)
     accion 1
 else -- si no se cumple, salta aqui
