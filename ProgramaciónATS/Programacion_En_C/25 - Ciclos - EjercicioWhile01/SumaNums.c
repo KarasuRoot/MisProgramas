@@ -1,0 +1,2 @@
+/* Suma los primenos n primeros numeros
+*/
