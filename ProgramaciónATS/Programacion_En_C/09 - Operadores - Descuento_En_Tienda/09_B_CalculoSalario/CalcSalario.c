@@ -19,3 +19,27 @@ Cuando pones solo un getchar() después de printf("\n\nPresione cualquier tecla 
 El segundo getchar() es el que realmente espera a que presiones una tecla para continuar y, por lo tanto, mantiene la ventana abierta hasta que lo haces.*/
     return 0;
 }
+
+
+
+/*
+Version Alejandro
+
+
+#include<stdio.h>
+
+int main(){
+	int horas,salario_hora,salario;
+	
+	printf("Digite las horas trabajadas: ");
+	scanf("%i",&horas);
+	printf("Digite el salario por hora: ");
+	scanf("%i",&salario_hora);
+	
+	salario = horas * salario_hora;
+	
+	printf("\nEl salario total es: %i",salario);
+	
+	return 0;
+}
+*/
